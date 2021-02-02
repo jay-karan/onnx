@@ -842,6 +842,7 @@ class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, QuantizeLinear);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, DequantizeLinear);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, Loop);
 class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, If);
+class ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, Mish);
 
 // Iterate over schema from ai.onnx version 13
 class OpSet_Onnx_ver13 {
@@ -927,6 +928,7 @@ class OpSet_Onnx_ver13 {
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, DequantizeLinear)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, Loop)>());
     fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, If)>());
+   fn(GetOpSchema<ONNX_OPERATOR_SET_SCHEMA_CLASS_NAME(Onnx, 13, Mish)>());
   }
 };
 
