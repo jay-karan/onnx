@@ -162,16 +162,16 @@ ONNX_OPERATOR_SET_SCHEMA(
 // New Operator is being added here
 static const char* opmul_ver12_doc = R"DOC(
        A New Operator named Opmul is being added, which is a result of 
-       it's on product.``` max(0,x) + min(0,alpha*(exp(x/alpha)−1)) ```
+       it's on product.``` x*x ```
 )DOC";
 
-static float celu_default_alpha = 1.0;
+
 
 ONNX_OPERATOR_SET_SCHEMA(
     Opmul,
     12,
     OpSchema()
-       .SetDoc(celu_ver12_doc)
+       .SetDoc(opmul_ver12_doc)
        .Input(0, "X", "Input tensor", "T")
        .Output(0, "Y", "Output tensor", "T")
   
