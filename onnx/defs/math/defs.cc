@@ -184,6 +184,36 @@ ONNX_OPERATOR_SET_SCHEMA(
            {// nodes: {outputs, op, inputs, attributes}
             //FunctionBodyHelper::NodeDef{{"alpha"}, "Constant", {}, {MakeRefAttribute("value_float", "alpha", AttributeProto::FLOAT)}},
             {{"Y"}, "Mul", {"X", "X"}}})));
+  
+// Mish Operator
+static const char* mish_ver13_doc = R"DOC(
+       Performs MISH Activation Function using the formula: <br/> ``` x * tanh(ln(1+exp(x))) ```
+)DOC";
+
+
+ONNX_OPERATOR_SET_SCHEMA(
+    Mish,
+    13,
+    OpSchema()
+       .SetDoc(mish_ver13_doc)
+       .Input(0, "X", "Input tensor", "T")
+       .Output(0, "Y", "Output tensor", "T")
+       
+       .TypeConstraint(
+           "T",
+           {"tensor(float16)", "tensor(float)", "tensor(double)"},
+           "Constrain input and output types to floating-point tensors.")
+       
+       .FunctionBody(FunctionBodyHelper::BuildNodes(
+           {// nodes: {outputs, op, inputs, attributes}
+            
+            FunctionBodyHelper::Const<float>("one", 1.0f),
+            {{"EXP_X"},"Exp",{"X"}},
+            {{"ONE-EXP-X"},"Add",{"one","EXP_X"}},
+            {{"LOGGER"},"Log",{"ONE-EXP-X"}},
+            {{"TANNER"}, "Tanh", {"LOGGER"}},
+            {{"Y"}, "Mul", {"X", "TANNER"}}})));
+  
             
 static const char* Mod_doc = R"DOC(
   Performs element-wise binary modulus (with Numpy-style broadcasting support).
