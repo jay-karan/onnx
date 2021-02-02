@@ -159,6 +159,32 @@ ONNX_OPERATOR_SET_SCHEMA(
     13,
     OpSchema().FillUsing(MathDocGenerator("subtraction")));
 
+// New Operator is being added here
+static const char* opmul_ver12_doc = R"DOC(
+       A New Operator named Opmul is being added, which is a result of 
+       it's on product.``` max(0,x) + min(0,alpha*(exp(x/alpha)−1)) ```
+)DOC";
+
+static float celu_default_alpha = 1.0;
+
+ONNX_OPERATOR_SET_SCHEMA(
+    Opmul,
+    12,
+    OpSchema()
+       .SetDoc(celu_ver12_doc)
+       .Input(0, "X", "Input tensor", "T")
+       .Output(0, "Y", "Output tensor", "T")
+  
+       .TypeConstraint(
+           "T",
+           {"tensor(float16)", "tensor(float)", "tensor(double)"},
+           "Constrain input and output types to floating-point tensors.")
+  
+       .FunctionBody(FunctionBodyHelper::BuildNodes(
+           {// nodes: {outputs, op, inputs, attributes}
+            //FunctionBodyHelper::NodeDef{{"alpha"}, "Constant", {}, {MakeRefAttribute("value_float", "alpha", AttributeProto::FLOAT)}},
+            {{"Y"}, "Mul", {"X", "X"}}})));
+            
 static const char* Mod_doc = R"DOC(
   Performs element-wise binary modulus (with Numpy-style broadcasting support).
     The sign of the remainder is the same as that of the Divisor.
